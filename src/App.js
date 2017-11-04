@@ -1,18 +1,38 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
+import { BrowserRouter as Router, Route } from 'react-router-dom';
+
 import './App.css';
+import Home from './components/Home';
+
 
 class App extends Component {
   render() {
     return (
       <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <h1 className="App-title">Welcome to React</h1>
-        </header>
-        <p className="App-intro">
-          To get started, edit <code>src/App.js</code> and save to reload.
-        </p>
+        <nav className="navbar navbar-inverse navbar-fixed-top">
+          <div className="container">
+            <div className="navbar-header">
+              <a className="navbar-brand" href="/">DAISEE</a>
+            </div>
+            <div id="navbar" className="collapse navbar-collapse">
+              <ul className="nav navbar-nav">
+                <li><a href="/">Home</a></li>
+              </ul>
+            </div>
+          </div>
+        </nav>
+        <div className="container">
+          <div className="row">
+            <br/><br/><br/>
+              <div className="App-nav">
+                  <Router>
+                      <div>
+                          <Route exact path="/" component={Home}/>
+                      </div>
+                  </Router>
+              </div>
+          </div>
+        </div>
       </div>
     );
   }
