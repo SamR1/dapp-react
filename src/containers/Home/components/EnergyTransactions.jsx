@@ -17,24 +17,60 @@ class EnergyTransactions extends Component {
     componentWillMount() {
 
         let transactionsList = [];
+
         this.prodEvent = daiseeContract.Produce(() => this.setState({
             transactions: transactionsList
         }));
         this.prodEvent.watch(function(error, result){
             if (!error){
-                transactionsList.push(EnergyTransactions.getResultData(result));
+                transactionsList.push(EnergyTransactions.getResultData(result, 'prod'));
             }
         });
 
+        this.consEvent = daiseeContract.Consume(() => this.setState({
+            transactions: transactionsList
+        }));
+        this.consEvent.watch(function(error, result){
+            if (!error){
+                transactionsList.push(EnergyTransactions.getResultData(result, 'cons'));
+            }
+        });
     }
 
-    static getResultData(result){
+    static getResultData(result, type){
+        let energyTransaction = '';
+        let from = '';
+        let to = '';
+
+        let contractFrom = EnergyTransactions.checkIfIsNodeAddress(result.args.from);
+
+        switch(type) {
+            case 'cons':
+                from = EnergyTransactions.checkIfIsNodeAddress(result.args.origin);
+                to = contractFrom;
+                energyTransaction = 'consumed';
+                break;
+            case 'prod':
+                from = contractFrom;
+                to = '';
+                energyTransaction = 'produced';
+                break;
+            default:  // buy event (not implemented yet)
+                from = contractFrom;
+                to = EnergyTransactions.checkIfIsNodeAddress(result.args.to);
+                energyTransaction = 'purchased';
+        }
+
         return {
             blockNumber: result.blockNumber,
-            from: result.args.from === config.nodeAddress ? "me" : result.args.from,
-            to: '',
-            transaction: "Energy produced : " + result.args.energy.c.toString() + " W"
+            from,
+            to,
+            transaction: 'Energy ' + energyTransaction + ' : ' + result.args.energy.c.toString() + ' W'
         };
+    }
+
+    static checkIfIsNodeAddress(address){
+        return address === config.nodeAddress.toLowerCase() ? 'me' : address;
     }
 
     render() {
@@ -61,7 +97,7 @@ class EnergyTransactions extends Component {
                                         <td>{transaction.to}</td>
                                         <td>{transaction.transaction}</td>
                                     </tr>
-                                )
+                                );
                             })
                         }
                         </tbody>
