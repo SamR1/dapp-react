@@ -8,13 +8,11 @@ const Main = () => {
         <div className="container">
             <div className="row">
                 <br/><br/><br/>
-                <div className="App-nav">
-                    <Router>
-                        <div>
-                            <Route exact path="/" component={Home}/>
-                        </div>
-                    </Router>
-                </div>
+                <Router>
+                    <div>
+                        <Route exact path="/" component={Home}/>
+                    </div>
+                </Router>
             </div>
         </div>
     );
