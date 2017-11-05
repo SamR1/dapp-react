@@ -13,37 +13,49 @@ class Home extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            currentBlockNb: null
+            currentBlock: {
+                number: 'n/a',
+                timestp: 'n/a',
+            }
         };
     }
 
     componentWillMount() {
         this.interval = setInterval(() => this.setState({
-            currentBlockNb: this.getBlockNb()
+            currentBlock: Home.getLastBlockInfo()
         }), 1000);
-
     }
 
     componentWillUnmount() {
         clearInterval(this.interval);
     }
 
-    getBlockNb(){
-        let currentBlockNumber = 'n/a';
-        try{
-            currentBlockNumber = web3.eth.blockNumber;
+    static getLastBlockInfo(){
+        let number = 'n/a';
+        let timestp = 'n/a';
+
+        try {
+            number = web3.eth.blockNumber;
+            timestp = new Date(parseInt(web3.eth.getBlock(number).timestamp.toString() + '000', 10)).toString();
         }
         catch (err) {
             console.error(err.message);
         }
-        return currentBlockNumber;
+
+        return {
+            number: number,
+            timestp: timestp,
+        };
     }
 
     render() {
         return (
             <div className="container">
                 <div className="row">
-                Current Block: {this.state.currentBlockNb}
+                    <h6 className="bc-infos">Ethereum status (current block) : number: <strong>{this.state.currentBlock.number}</strong> ,
+                        timestamp: <strong>{this.state.currentBlock.timestp}</strong></h6>
+                    <h6 className="bc-infos">Contract address : </h6>
+                    <h6 className="bc-infos">Token address : </h6>
                 </div>
             </div>
         );
