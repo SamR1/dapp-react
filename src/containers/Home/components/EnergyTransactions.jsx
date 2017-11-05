@@ -35,6 +35,15 @@ class EnergyTransactions extends Component {
                 transactionsList.push(EnergyTransactions.getResultData(result, 'cons'));
             }
         });
+
+        this.buyEvent = daiseeContract.Buy(() => this.setState({
+            transactions: transactionsList
+        }));
+        this.buyEvent.watch(function(error, result){
+            if (!error){
+                transactionsList.push(EnergyTransactions.getResultData(result, 'buy'));
+            }
+        });
     }
 
     static getResultData(result, type){
@@ -55,7 +64,7 @@ class EnergyTransactions extends Component {
                 to = '';
                 energyTransaction = 'produced';
                 break;
-            default:  // buy event (not implemented yet)
+            default:
                 from = contractFrom;
                 to = EnergyTransactions.checkIfIsNodeAddress(result.args.to);
                 energyTransaction = 'purchased';
