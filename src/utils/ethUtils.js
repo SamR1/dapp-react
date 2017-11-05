@@ -35,7 +35,7 @@ export function getNodeInfo(props){
     let totalProduction = 'n/a';
 
     try {
-        tokenBalance =  token.balanceOf(address).toString();
+        tokenBalance = token.balanceOf(address).toString();
         totalConsumption = daisee.energyProduction(address).toString();
         totalProduction = daisee.totalEnergyConsumption(address).toString();
     }
