@@ -19,7 +19,7 @@ export function getLastBlockInfo() {
     }
 
     return {
-        number: number,
-        timestp: timestp,
+        number,
+        timestp,
     };
 }

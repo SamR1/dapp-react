@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import Web3 from 'web3';
 
 import './Home.css';
 import { config } from '../../utils/config.js';
