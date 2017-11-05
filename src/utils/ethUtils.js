@@ -50,3 +50,5 @@ export function getNodeInfo(props){
         totalProduction
     };
 }
+
+export const daiseeContract = daisee;

@@ -4,7 +4,7 @@ import './Home.css';
 import EthStatus from './components/EthStatus';
 import NodeInfo from './components/NodeInfo';
 import EnergyGraph from './components/EnergyGraph';
-
+import EnergyTransactions from './components/EnergyTransactions';
 
 class Home extends Component {
 
@@ -24,6 +24,11 @@ class Home extends Component {
                         <div className="col-md-8">
                             <EnergyGraph/>
                         </div>
+                    </div>
+                </div>
+                <div className="container">
+                    <div className="row">
+                        <EnergyTransactions/>
                     </div>
                 </div>
             </div>
