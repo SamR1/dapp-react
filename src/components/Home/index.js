@@ -11,14 +11,14 @@ class Home extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            current_block_nb: null
-        }
+            currentBlockNb: null
+        };
     }
 
     componentWillMount() {
-        let current_block_number = web3.eth.blockNumber;
+        let currentBlockNumber = web3.eth.blockNumber;
         this.setState({
-            current_block_nb: current_block_number
+            currentBlockNb: currentBlockNumber
         });
     }
 
@@ -26,7 +26,7 @@ class Home extends Component {
         return (
             <div className="container">
                 <div className="row">
-                Current Block: {this.state.current_block_nb}
+                Current Block: {this.state.currentBlockNb}
                 </div>
             </div>
         );
