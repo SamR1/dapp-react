@@ -54,8 +54,8 @@ class Home extends Component {
                 <div className="row">
                     <h6 className="bc-infos">Ethereum status (current block) : number: <strong>{this.state.currentBlock.number}</strong> ,
                         timestamp: <strong>{this.state.currentBlock.timestp}</strong></h6>
-                    <h6 className="bc-infos">Contract address : </h6>
-                    <h6 className="bc-infos">Token address : </h6>
+                    <h6 className="bc-infos">Contract address : <strong>{config.daiseeContract}</strong> </h6>
+                    <h6 className="bc-infos">Token address : <strong>{config.tokenContract}</strong> </h6>
                 </div>
             </div>
         );
