@@ -16,7 +16,15 @@ class Home extends Component {
     }
 
     componentWillMount() {
-        let currentBlockNumber = web3.eth.blockNumber;
+        let currentBlockNumber = 'n/a';
+
+        try{
+            currentBlockNumber = web3.eth.blockNumber;
+        }
+        catch (err) {
+            console.error(err.message);
+        }
+        
         this.setState({
             currentBlockNb: currentBlockNumber
         });
