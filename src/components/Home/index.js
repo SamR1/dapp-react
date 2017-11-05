@@ -2,8 +2,10 @@ import React, { Component } from 'react';
 import Web3 from 'web3';
 
 import './style.css';
+import { config } from './../../config.js';
 
-let web3 = new Web3(new Web3.providers.HttpProvider('http://localhost:8540'));
+
+let web3 = new Web3(new Web3.providers.HttpProvider('http://' + config.nodeUrl + ':' + config.nodePort));
 
 
 class Home extends Component {
