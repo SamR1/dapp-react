@@ -18,18 +18,25 @@ class Home extends Component {
     }
 
     componentWillMount() {
-        let currentBlockNumber = 'n/a';
+        this.interval = setInterval(() => this.setState({
+            currentBlockNb: this.getBlockNb()
+        }), 1000);
 
+    }
+
+    componentWillUnmount() {
+        clearInterval(this.interval);
+    }
+
+    getBlockNb(){
+        let currentBlockNumber = 'n/a';
         try{
             currentBlockNumber = web3.eth.blockNumber;
         }
         catch (err) {
             console.error(err.message);
         }
-        
-        this.setState({
-            currentBlockNb: currentBlockNumber
-        });
+        return currentBlockNumber;
     }
 
     render() {
