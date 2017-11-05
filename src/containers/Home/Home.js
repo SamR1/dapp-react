@@ -1,11 +1,9 @@
 import React, { Component } from 'react';
 import Web3 from 'web3';
 
-import './style.css';
-import { config } from './../../config.js';
-
-
-let web3 = new Web3(new Web3.providers.HttpProvider('http://' + config.nodeUrl + ':' + config.nodePort));
+import './Home.css';
+import { config } from '../../utils/config.js';
+import { getLastBlockInfo } from '../../utils/ethUtils';
 
 
 class Home extends Component {
@@ -22,7 +20,7 @@ class Home extends Component {
 
     componentWillMount() {
         this.interval = setInterval(() => this.setState({
-            currentBlock: Home.getLastBlockInfo()
+            currentBlock: getLastBlockInfo()
         }), 1000);
     }
 
@@ -30,29 +28,12 @@ class Home extends Component {
         clearInterval(this.interval);
     }
 
-    static getLastBlockInfo(){
-        let number = 'n/a';
-        let timestp = 'n/a';
-
-        try {
-            number = web3.eth.blockNumber;
-            timestp = new Date(parseInt(web3.eth.getBlock(number).timestamp.toString() + '000', 10)).toString();
-        }
-        catch (err) {
-            console.error(err.message);
-        }
-
-        return {
-            number: number,
-            timestp: timestp,
-        };
-    }
-
     render() {
         return (
             <div className="container">
                 <div className="row">
-                    <h6 className="bc-infos">Ethereum status (current block) : number: <strong>{this.state.currentBlock.number}</strong> ,
+                    <h6 className="bc-infos">Ethereum (current block) :
+                        number: <strong>{this.state.currentBlock.number}</strong> ,
                         timestamp: <strong>{this.state.currentBlock.timestp}</strong></h6>
                     <h6 className="bc-infos">Contract address : <strong>{config.daiseeContract}</strong> </h6>
                     <h6 className="bc-infos">Token address : <strong>{config.tokenContract}</strong> </h6>
