@@ -36,8 +36,8 @@ export function getNodeInfo(props){
 
     try {
         tokenBalance = token.balanceOf(address).toString();
-        totalConsumption = daisee.energyProduction(address).toString();
-        totalProduction = daisee.totalEnergyConsumption(address).toString();
+        totalProduction = daisee.energyProduction(address).toString();
+        totalConsumption = daisee.totalEnergyConsumption(address).toString();
     }
     catch (err) {
         console.error(err.message);
@@ -49,6 +49,43 @@ export function getNodeInfo(props){
         totalConsumption,
         totalProduction
     };
+}
+
+export function getSellersList(){
+
+    let sellersList = [];
+    let nodeAddress = config.nodeAddress.toLowerCase();
+
+    try {
+        let nbsellers = daisee.nbSellers();
+        let j = 0;
+
+        for (let i = 0; i < nbsellers; i++) {
+
+            let sellerAddress = daisee.sellerIndex(i);
+            if (sellerAddress === nodeAddress) { continue; }
+
+            let allowance = parseInt(daisee.allowance(sellerAddress, nodeAddress), 10);
+            let consumptionFromSeller = parseInt(daisee.energyConsumption(nodeAddress, sellerAddress), 10);
+            let totalPurchasedEnergy = allowance + consumptionFromSeller;
+            if (totalPurchasedEnergy === 0) { continue; }
+            else { j += 1 }
+
+            let sellerTd = {
+                nb: j,
+                from: sellerAddress,
+                consumed: consumptionFromSeller,
+                remain: allowance,
+                total: totalPurchasedEnergy
+            };
+            sellersList.push(sellerTd);
+        }
+    }
+    catch (error) {
+        console.error(error.message)
+    }
+
+    return sellersList;
 }
 
 export const daiseeContract = daisee;

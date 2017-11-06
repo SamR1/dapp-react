@@ -82,9 +82,15 @@ class EnergyTransactions extends Component {
         return address === config.nodeAddress.toLowerCase() ? 'me' : address;
     }
 
+    static uniqueTransaction(transactionsList) {
+        let uniq = new Set(transactionsList.map(e => JSON.stringify(e)));
+        return Array.from(uniq).map(e => JSON.parse(e));
+    }
+
     render() {
+        let newTransactionsList = EnergyTransactions.uniqueTransaction(this.state.transactions);
         return (
-            <div className="last-transaction">
+            <div className="last-transactions">
                 <h4 className="sub-header">Energy transactions since the last refresh ({now.toString()})</h4>
                 <div className="table-responsive">
                     <table className="table">
@@ -98,7 +104,7 @@ class EnergyTransactions extends Component {
                         </thead>
                         <tbody id="transactions">
                         {
-                            this.state.transactions.map((transaction) => {
+                            newTransactionsList.map((transaction) => {
                                 return (
                                     <tr key={transaction.blockNumber}>
                                         <td>{transaction.blockNumber}</td>
